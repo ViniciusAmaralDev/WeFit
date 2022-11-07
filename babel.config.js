@@ -11,6 +11,7 @@ module.exports = function (api) {
             "@core": "./src/core",
             "@modules": "./src/modules",
             "@shared": "./src/shared",
+            "@service": "./src/service",
             "@components": "./src/shared/components",
             "@assets": "./src/shared/assets",
           },
