@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "./router";
 import theme from "@shared/theme";
+import HookProvider from "./hooks";
 import { useFonts } from "expo-font";
 import { ThemeProvider } from "styled-components";
 
@@ -15,7 +16,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router />
+      <HookProvider>
+        <Router />
+      </HookProvider>
     </ThemeProvider>
   );
 }
