@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "WeFit",
+    "slug": "WeFit",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
