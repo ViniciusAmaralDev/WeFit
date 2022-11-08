@@ -1,6 +1,6 @@
 import React from "react";
 import { useRepository } from "../hook";
-import { Card } from "../components/card";
+import { Card } from "../../../shared/components/card";
 import { Repository } from "../hook/types";
 import { StatusBar } from "expo-status-bar";
 import { Header } from "../components/header";
@@ -12,7 +12,6 @@ const Repositories = () => {
   return (
     <Container>
       <StatusBar style="dark" />
-      <Header title="WeFit" onPress={toggleModalOfSelectRepository} />
       <FlatList
         data={repositories.filter((repository) => !repository.favorite)}
         keyExtractor={(_, index) => index.toString()}
