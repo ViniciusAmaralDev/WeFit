@@ -1,18 +1,16 @@
 import React from "react";
 import * as Linking from "expo-linking";
 import { StatusBar } from "expo-status-bar";
+import { useRepository } from "@modules/repositories/hook";
 import { StackRootParamList } from "@core/router/Stack.router";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import {
   Container,
   Content,
   VerticalContainer,
   HorizontalContainer,
-  Header,
-  Text,
   Label,
   RedBubble,
-  Button,
   Footer,
   FavoriteButton,
   FavorityText,
@@ -20,14 +18,11 @@ import {
   RepositoryButton,
   RepositoryText,
   LinkIcon,
-  ArrowIcon,
 } from "./styles";
-import { useRepository } from "@modules/repositories/hook";
 
 type Props = RouteProp<StackRootParamList, "Details">;
 
 export const Details = () => {
-  const navigation = useNavigation();
   const { id } = useRoute<Props>().params;
   const { repositories, handleFavoriteRepository } = useRepository();
   const repository = repositories.filter((repo) => repo.id === id)[0];
@@ -38,19 +33,11 @@ export const Details = () => {
     <Container>
       <StatusBar style="light" />
       <VerticalContainer>
-        <Header>
-          <Button onPress={() => navigation.goBack()}>
-            <ArrowIcon />
-          </Button>
-
-          <Text>Detalhes</Text>
-        </Header>
-
         <Content>
           <Label>
             {repository.owner.name}/<Label bold>{repository.name}</Label>
           </Label>
-          
+
           {repository.description && (
             <Label light marginTop={16}>
               {repository.description}

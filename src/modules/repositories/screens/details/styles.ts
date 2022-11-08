@@ -30,20 +30,6 @@ export const HorizontalContainer = styled.View`
   margin-top: ${RFValue(16)}px;
 `;
 
-export const Header = styled.View`
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  padding: ${RFValue(50)}px ${RFValue(16)}px ${RFValue(16)}px;
-  background-color: ${({ theme }) => theme.colors.terciary_background};
-`;
-
-export const Text = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.bold};
-  font-size: ${RFValue(16)}px;
-  color: ${({ theme }) => theme.colors.secondary_background};
-`;
-
 export const Label = styled.Text<Props>`
   font-family: ${({ theme, bold }) =>
     bold ? theme.fonts.bold : theme.fonts.regular};
@@ -60,10 +46,6 @@ export const RedBubble = styled.View`
   margin-right: ${RFValue(8)}px;
   background-color: ${({ theme }) => theme.colors.terciary_button};
 `;
-
-export const Button = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})``;
 
 export const Footer = styled.View`
   width: 100%;
@@ -108,14 +90,6 @@ export const RepositoryText = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(14)}px;
   color: ${({ theme }) => theme.colors.primary_button};
-`;
-
-export const ArrowIcon = styled(AntDesign).attrs(({ theme }) => ({
-  name: "arrowleft",
-  size: RFValue(20),
-  color: theme.colors.secondary_background,
-}))`
-  margin-right: ${RFValue(8)}px;
 `;
 
 export const LinkIcon = styled(Feather).attrs(({ theme }) => ({
