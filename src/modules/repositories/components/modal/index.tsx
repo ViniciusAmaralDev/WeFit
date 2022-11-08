@@ -1,8 +1,6 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useTheme } from "styled-components";
 import { ActivityIndicator } from "react-native";
+import React, { useState, useEffect } from "react";
 import { useModalize } from "react-native-modalize";
 import { useRepository } from "@modules/repositories/hook";
 import {
@@ -26,14 +24,14 @@ export const Modal = ({ visible, onClose }: Props) => {
   const { ref, open, close } = useModalize();
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
-  const { getAllRepositories, toggleModalOfSelectRepository } = useRepository();
+  const { getAllRepositoriesOnline, toggleModalOfSelectRepository } = useRepository();
 
   const getNewRepository = async () => {
     if (loading) return;
 
     setLoading(true);
     try {
-      await getAllRepositories(username);
+      await getAllRepositoriesOnline(username);
       onClose();
     } catch (error: any) {
     } finally {

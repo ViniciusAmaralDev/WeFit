@@ -11,7 +11,7 @@ export type Repository = {
 
 export type RepositoryContext = {
   repositories: Repository[];
-  getAllRepositories: (user: string) => Promise<void>;
+  getAllRepositoriesOnline: (user: string) => Promise<void>;
   toggleModalOfSelectRepository: () => void;
   handleFavoriteRepository: (id: number) => void;
 };
