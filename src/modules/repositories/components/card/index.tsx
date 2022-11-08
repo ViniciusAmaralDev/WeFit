@@ -12,11 +12,13 @@ import {
   StarIcon,
   RedBubble,
 } from "./styles";
+import { useRepository } from "@modules/repositories/hook";
 
 type Props = { repository: Repository };
 
 export const Card = ({ repository }: Props) => {
   const navigation = useNavigation();
+  const { handleFavoriteRepository } = useRepository();
 
   return (
     <Container
@@ -43,7 +45,11 @@ export const Card = ({ repository }: Props) => {
         justify="space-between"
         marginTop={repository?.description ? 16 : 0}
       >
-        <Button showColor justify="space-between">
+        <Button
+          showColor
+          justify="space-between"
+          onPress={() => handleFavoriteRepository(repository.id)}
+        >
           <StarIcon />
 
           <TextButton bold light>
