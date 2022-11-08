@@ -3,15 +3,20 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import BottomRouter from "./Bottom.router";
-// import Details from "@modules/details/screens";
+import { Details } from "@modules/repositories/screens/details";
 
-const Stack = createStackNavigator();
+export type StackRootParamList = {
+  BottomRouter: undefined;
+  Details: { id: number };
+};
+
+const Stack = createStackNavigator<StackRootParamList>();
 
 export default function StackRouter() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="BottomRouter" component={BottomRouter} />
-      {/* <Stack.Screen name="Details" component={Details} /> */}
+      <Stack.Screen name="Details" component={Details} />
     </Stack.Navigator>
   );
 }
