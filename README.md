@@ -15,17 +15,15 @@ Após instalar todas as dependências, execute o seguinte comando no terminal pa
 cd ios && pod install && cd ..
 ```
 Agora você está pronto para rodar o projeto:
-Com expo cli
+
+> Com expo cli
 
 ```bash
-expo run:ios
+expo run:ios OU expo run:android
 ```
-ou
+</br>
 
-```bash
-expo run:android
-```
-Com react native cli
+> Com react native cli
 
 ```bash
 npx react-native start
