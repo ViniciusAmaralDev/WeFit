@@ -1,10 +1,10 @@
 import React from "react";
 import { useRepository } from "../hook";
+import { Card } from "../components/card";
+import { Repository } from "../hook/types";
 import { StatusBar } from "expo-status-bar";
 import { Header } from "../components/header";
 import { Container, FlatList } from "./styles";
-import { Card } from "../components/card";
-import { Repository } from "../hook/types";
 
 const Repositories = () => {
   const { repositories, toggleModalOfSelectRepository } = useRepository();
@@ -14,7 +14,7 @@ const Repositories = () => {
       <StatusBar style="dark" />
       <Header title="WeFit" onPress={toggleModalOfSelectRepository} />
       <FlatList
-        data={repositories}
+        data={repositories.filter((repository) => !repository.favorite)}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => <Card repository={item as Repository} />}
       />
