@@ -16,14 +16,14 @@ export const RepositoryProvider = ({ children }: Children) => {
 
   const toggleModalOfSelectRepository = () => setShowModal((value) => !value);
 
-  const handleFavoriteRepository = (id: number) => {
-    setRepositories((repositories) =>
-      repositories.map((repository) => ({
-        ...repository,
-        favorite:
-          repository.id === id ? !repository.favorite : repository.favorite,
-      }))
-    );
+  const handleFavoriteRepository = async (id: number) => {
+    const repos = repositories.map((repository) => ({
+      ...repository,
+      favorite:
+        repository.id === id ? !repository.favorite : repository.favorite,
+    }));
+    setRepositories(repos);
+    await AsyncStorage.setItem("repositories", JSON.stringify(repos));
   };
 
   const getAllRepositoriesOnline = async (user: string) => {
@@ -50,6 +50,7 @@ export const RepositoryProvider = ({ children }: Children) => {
   const getAllRepositoriesOffline = async () => {
     try {
       const repositories = await AsyncStorage.getItem("repositories");
+      console.log(JSON.parse(repositories));
       setRepositories(JSON.parse(repositories));
     } catch (error: any) {
       console.log("ERROR: GET ALL REPOSITORIES OFFLINE =>", error);
@@ -57,7 +58,7 @@ export const RepositoryProvider = ({ children }: Children) => {
   };
 
   useEffect(() => {
-    if (isConnected) getAllRepositoriesOnline("appswefit");
+    if (!isConnected) getAllRepositoriesOnline("appswefit");
     else getAllRepositoriesOffline();
   }, [isConnected]);
 
