@@ -6,6 +6,7 @@ export default {
 
     primary_button: "#1A76D2",
     secondary_button: "#FFD02C",
+    terciary_button: "#FF0000",
 
     primary_text: "#666666",
     secondary_text: "#CBCBCB",
