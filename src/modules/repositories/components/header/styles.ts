@@ -7,7 +7,7 @@ export const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: ${RFValue(50)}px ${RFValue(16)}px ${RFValue(16)}px;
+  padding: ${RFValue(40)}px ${RFValue(16)}px ${RFValue(16)}px;
   background-color: ${({ theme }) => theme.colors.secondary_background};
 `;
 
