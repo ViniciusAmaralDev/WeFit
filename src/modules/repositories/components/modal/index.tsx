@@ -1,8 +1,9 @@
 import { useTheme } from "styled-components";
-import { ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useModalize } from "react-native-modalize";
+import { ActivityIndicator, Alert } from "react-native";
 import { useRepository } from "@modules/repositories/hook";
+import { useNetInfo } from "@react-native-community/netinfo";
 import {
   Container,
   Content,
@@ -21,20 +22,27 @@ type Props = {
 
 export const Modal = ({ visible, onClose }: Props) => {
   const theme = useTheme();
+  const { isConnected } = useNetInfo();
   const { ref, open, close } = useModalize();
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
-  const { getAllRepositoriesOnline, toggleModalOfSelectRepository } = useRepository();
+  const { getAllRepositoriesOnline, toggleModalOfSelectRepository } =
+    useRepository();
 
   const getNewRepository = async () => {
+    if (!isConnected) {
+      Alert.alert("Aviso", "Você precisa estar conectado à internet");
+      return;
+    }
+
     if (loading) return;
 
     setLoading(true);
     try {
       await getAllRepositoriesOnline(username);
-      onClose();
     } catch (error: any) {
     } finally {
+      onClose();
       setLoading(false);
     }
   };
