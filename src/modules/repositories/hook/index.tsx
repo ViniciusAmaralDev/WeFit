@@ -5,7 +5,6 @@ import { Repository, RepositoryContext } from "./types";
 import { repositoryService } from "../service/Repo.service";
 import { useNetInfo } from "@react-native-community/netinfo";
 import React, { createContext, useEffect, useContext } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Context = createContext<RepositoryContext>({} as RepositoryContext);
 
@@ -27,9 +26,9 @@ export const RepositoryProvider = ({ children }: Children) => {
         data.favorite = false;
         const newRepositories = [...repositories, data];
         setRepositories(newRepositories);
-        await AsyncStorage.setItem(
+        await repositoryService.offline.addRepository(
           "repositories",
-          JSON.stringify(newRepositories)
+          newRepositories
         );
       }
 
@@ -37,16 +36,16 @@ export const RepositoryProvider = ({ children }: Children) => {
         (repos) => repos.id !== repository.id
       );
       setFavorites(newFavorites);
-      await AsyncStorage.setItem("favorites", JSON.stringify(newFavorites));
+      await repositoryService.offline.addRepository("favorites", newFavorites);
     } else {
       repository.favorite = true;
       const newFavorites = [...favorites, repository];
       setFavorites(newFavorites);
-      await AsyncStorage.setItem("favorites", JSON.stringify(newFavorites));
+      await repositoryService.offline.addRepository("favorites", newFavorites);
 
       const repos = repositories.filter((repos) => repos.id !== repository.id);
       setRepositories(repos);
-      await AsyncStorage.setItem("repositories", JSON.stringify(repos));
+      await repositoryService.offline.addRepository("repositories", repos);
     }
   };
 
@@ -64,14 +63,15 @@ export const RepositoryProvider = ({ children }: Children) => {
 
   const getAllRepositoriesOnline = async (user: string) => {
     try {
-      const offline = await AsyncStorage.getItem("favorites");
-      const favorites = JSON.parse(offline);
+      const favorites = await repositoryService.offline.getRepository(
+        "favorites"
+      );
 
-      const { data } = await repositoryService.http.getAll(user);
+      const { data } = await repositoryService.http.get(user);
 
       const owner = data[0].owner.login;
       setRepositoryOwner(owner);
-      await AsyncStorage.setItem("repositoryOwner", owner);
+      await repositoryService.offline.addOwner(owner);
 
       if (favorites && favorites.length > 0) {
         const ids = favorites.map((item: any) => item.id);
@@ -79,7 +79,7 @@ export const RepositoryProvider = ({ children }: Children) => {
         const repos = formatRepositories(filtered);
         setRepositories(repos);
         setFavorites(favorites);
-        await AsyncStorage.setItem("repositories", JSON.stringify(repos));
+        await repositoryService.offline.addRepository("repositories", repos);
       } else {
         const repositories = formatRepositories(data);
         setRepositories(repositories);
@@ -92,20 +92,23 @@ export const RepositoryProvider = ({ children }: Children) => {
 
   const getAllRepositoriesOffline = async () => {
     try {
-      const repositories = await AsyncStorage.getItem("repositories");
-      setRepositories(JSON.parse(repositories));
+      const repositories = await repositoryService.offline.getRepository(
+        "repositories"
+      );
+      setRepositories(repositories);
 
-      const favorites = await AsyncStorage.getItem("favorites");
-      setFavorites(JSON.parse(favorites));
+      const favorites = await repositoryService.offline.getRepository(
+        "favorites"
+      );
+      setFavorites(favorites);
     } catch (error: any) {
       console.log("ERROR: GET ALL REPOSITORIES OFFLINE =>", error);
     }
   };
 
   useEffect(() => {
-    // AsyncStorage.removeItem('favorites')
     (async () => {
-      const owner = await AsyncStorage.getItem("repositoryOwner");
+      const owner = await repositoryService.offline.getOwner();
       if (isConnected) getAllRepositoriesOnline(owner ?? repositoryOwner);
       else getAllRepositoriesOffline();
     })();
