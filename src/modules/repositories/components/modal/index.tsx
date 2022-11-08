@@ -1,7 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useTheme } from "styled-components";
+import { ActivityIndicator } from "react-native";
 import { useModalize } from "react-native-modalize";
+import { useRepository } from "@modules/repositories/hook";
 import {
   Container,
   Content,
@@ -19,8 +22,24 @@ type Props = {
 };
 
 export const Modal = ({ visible, onClose }: Props) => {
+  const theme = useTheme();
   const { ref, open, close } = useModalize();
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { getAllRepositories, toggleModalOfSelectRepository } = useRepository();
+
+  const getNewRepository = async () => {
+    if (loading) return;
+
+    setLoading(true);
+    try {
+      await getAllRepositories(username);
+      onClose();
+    } catch (error: any) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     visible ? open() : close();
@@ -35,16 +54,27 @@ export const Modal = ({ visible, onClose }: Props) => {
           <Text light size={12}>
             Nome do usuário
           </Text>
-          <Input onChangeText={setUsername} />
+          <Input
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={setUsername}
+          />
         </InputContainer>
 
         <ButtonsContainer>
-          <Button light onPress={() => {}}>
+          <Button light onPress={toggleModalOfSelectRepository}>
             <TextButton light>CANCELAR</TextButton>
           </Button>
 
-          <Button onPress={() => {}}>
-            <TextButton>SALVAR</TextButton>
+          <Button onPress={getNewRepository}>
+            {loading ? (
+              <ActivityIndicator
+                size="small"
+                color={theme.colors.secondary_background}
+              />
+            ) : (
+              <TextButton>SALVAR</TextButton>
+            )}
           </Button>
         </ButtonsContainer>
       </Content>
