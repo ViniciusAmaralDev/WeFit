@@ -1,21 +1,23 @@
 import React from "react";
 import { useTheme } from "styled-components";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { Header } from "@modules/repositories/components/header";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Repositories from "@modules/repositories/screens";
 import Favorites from "@modules/favorites/screens";
-import { RFValue } from "react-native-responsive-fontsize";
+import { useRepository } from "@modules/repositories/hook";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomRouter() {
   const theme = useTheme();
+  const { toggleModalOfSelectRepository } = useRepository();
 
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
+        header: () => <Header title="WeFit" onPress={toggleModalOfSelectRepository} />,
         tabBarLabelStyle: {
           fontFamily: theme.fonts.medium,
         },
