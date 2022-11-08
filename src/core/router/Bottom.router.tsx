@@ -1,10 +1,11 @@
 import React from "react";
+import { useTheme } from "styled-components";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Repositories from "@modules/repositories/screens";
-import { useTheme } from "styled-components";
-// import Favorites from "@modules/favorites/screens";
+import Favorites from "@modules/favorites/screens";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,6 @@ export default function BottomRouter() {
         headerShown: false,
         tabBarLabelStyle: {
           fontFamily: theme.fonts.medium,
-          // color: theme.colors.primary_text,
         },
       }}
     >
@@ -28,6 +28,16 @@ export default function BottomRouter() {
           tabBarLabel: "Repositórios",
           tabBarIcon: ({ size, color }) => (
             <AntDesign name="github" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Favorites"
+        component={Favorites}
+        options={{
+          tabBarLabel: "Favoritos",
+          tabBarIcon: ({ size, color }) => (
+            <AntDesign name="star" size={size} color={color} />
           ),
         }}
       />
