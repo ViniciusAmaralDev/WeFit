@@ -10,7 +10,7 @@ import { DetailScreenHeader } from "@shared/components/detailScreenHeader";
 export type StackRootParamList = {
   Splash: undefined;
   BottomRouter: undefined;
-  Details: { id: number };
+  Details: { id: number; favorite: boolean };
 };
 
 const Stack = createStackNavigator<StackRootParamList>();

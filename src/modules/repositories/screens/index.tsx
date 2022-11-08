@@ -1,21 +1,22 @@
 import React from "react";
 import { useRepository } from "../hook";
-import { Card } from "../../../shared/components/card";
 import { Repository } from "../hook/types";
 import { StatusBar } from "expo-status-bar";
-import { Header } from "../components/header";
 import { Container, FlatList } from "./styles";
+import { Card } from "../../../shared/components/card";
 
 const Repositories = () => {
-  const { repositories, toggleModalOfSelectRepository } = useRepository();
+  const { repositories } = useRepository();
 
   return (
     <Container>
       <StatusBar style="dark" />
       <FlatList
-        data={repositories.filter((repository) => !repository.favorite)}
+        data={repositories}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item }) => <Card repository={item as Repository} />}
+        renderItem={({ item }) => (
+          <Card repository={item as Repository} showFavoriteButton={true} />
+        )}
       />
     </Container>
   );

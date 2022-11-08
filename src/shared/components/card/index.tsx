@@ -14,15 +14,20 @@ import {
 } from "./styles";
 import { useRepository } from "@modules/repositories/hook";
 
-type Props = { repository: Repository };
+type Props = { repository: Repository; showFavoriteButton?: boolean };
 
-export const Card = ({ repository }: Props) => {
+export const Card = ({ repository, showFavoriteButton }: Props) => {
   const navigation = useNavigation();
   const { handleFavoriteRepository } = useRepository();
 
   return (
     <Container
-      onPress={() => navigation.navigate("Details", { id: repository.id })}
+      onPress={() =>
+        navigation.navigate("Details", {
+          id: repository.id,
+          favorite: repository.favorite,
+        })
+      }
     >
       <HorizontalContainer justify="space-between">
         <HorizontalContainer>
@@ -45,17 +50,19 @@ export const Card = ({ repository }: Props) => {
         justify="space-between"
         marginTop={repository?.description ? 16 : 0}
       >
-        <Button
-          showColor
-          justify="space-between"
-          onPress={() => handleFavoriteRepository(repository.id)}
-        >
-          <StarIcon />
+        {showFavoriteButton && (
+          <Button
+            showColor
+            justify="space-between"
+            onPress={() => handleFavoriteRepository(repository)}
+          >
+            <StarIcon />
 
-          <TextButton bold light>
-            Favoritar
-          </TextButton>
-        </Button>
+            <TextButton bold light>
+              Favoritar
+            </TextButton>
+          </Button>
+        )}
 
         <Button justify="space-evenly">
           <StarIcon />
