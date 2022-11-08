@@ -19,7 +19,8 @@ export const RepositoryProvider = ({ children }: Children) => {
     setRepositories((repositories) =>
       repositories.map((repository) => ({
         ...repository,
-        favorite: repository.id === id ? true : false,
+        favorite:
+          repository.id === id ? !repository.favorite : repository.favorite,
       }))
     );
   };
